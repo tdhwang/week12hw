@@ -51,9 +51,9 @@ function begin() {
       console.log("I'm here in the second question before the query ");
       // console.log(res.qty);
       var query = "SELECT StockQuantity, Price FROM Products WHERE ItemID=" + response.itemNum; 
-      connection.query(query, function(er, rows){
+      connection.query(query, function(er, row){
         if (er) {console.log(er)};
-        if (rows[0].StockQuantity < res.qty) {
+        if (row[0].StockQuantity < res.qty) {
           console.log("Insufficient quantity in stock!");
         } else {
           // This means updating the SQL database to reflect the remaining quantity.
