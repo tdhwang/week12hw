@@ -54,18 +54,21 @@ function begin() {
       console.log(response.itemNum);
       connection.query("SELECT StockQuantity, Price FROM Products WHERE ?", {Producto: response.itemNum} , function(er, row){
         if (er) {console.log(er)};
+        var StockQuantity = row[0].StockQuantity;
+        var price = row[0].Price;
         if (row[0].StockQuantity < res.qty) {
           console.log("Insufficient quantity in stock!");
         } else {
           // This means updating the SQL database to reflect the remaining quantity.
-          query = "UPDATE Products SET StockQuantity = " + (row[0].StockQuantity - res.qty) + " WHERE ItemID =" + response.itemNum;
+          query = "UPDATE Products SET StockQuantity = " + (row[0].StockQuantity - res.qty) + " WHERE Producto=" + response.itemNum;
           // console.log(query);
           connection.query(query, function(error1, res){
             if(error1){console.log(error1)}
           });
 
           // Once the update goes through, show the customer the total cost of their purchase.
-          var totalCost = res.qty * row[0].price;
+          console.log(res.qty, price); // DEBUGGING******
+          var totalCost = parseInt(res.qty) * parseInt(row[0].Price);
           console.log(" You owe me: " + totalCost);
           begin();
         }
