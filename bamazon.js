@@ -50,8 +50,9 @@ function begin() {
 
       console.log("I'm here in the second question before the query ");
       // console.log(res.qty);
-      var query = "SELECT StockQuantity, Price FROM Products WHERE ItemID=" + response.itemNum; 
-      connection.query(query, function(er, row){
+      // var query = "SELECT StockQuantity, Price FROM Products WHERE ?", {Producto: res.itemNum} 
+      console.log(response.itemNum);
+      connection.query("SELECT StockQuantity, Price FROM Products WHERE ?", {Producto: response.itemNum} , function(er, row){
         if (er) {console.log(er)};
         if (row[0].StockQuantity < res.qty) {
           console.log("Insufficient quantity in stock!");
